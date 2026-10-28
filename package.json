@@ -1,0 +1,22 @@
+{
+  "name": "ssq-picker",
+  "version": "1.0.0",
+  "description": "双色球选号助手 - 安卓 APK 工程（Capacitor 套壳，仅选号参考，不参与购彩）",
+  "private": true,
+  "scripts": {
+    "init": "cap init",
+    "sync": "cap sync android",
+    "open:android": "cap open android",
+    "add:android": "cap add android",
+    "copy": "cap copy android",
+    "build:debug": "cap copy android && cd android && ./gradlew assembleDebug",
+    "build:release": "cap copy android && cd android && ./gradlew assembleRelease"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.2.2",
+    "@capacitor/core": "^6.2.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.2.2"
+  }
+}

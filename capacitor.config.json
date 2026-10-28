@@ -1,0 +1,15 @@
+{
+  "appId": "com.ssq.picker",
+  "appName": "双色球选号助手",
+  "webDir": "www",
+  "version": "1.0.0",
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#ffffff"
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}

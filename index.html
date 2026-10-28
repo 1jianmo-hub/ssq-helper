@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#c62828">
+<title>双色球选号助手</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="title">双色球选号助手</div>
+  <div class="subtitle">仅用于选号参考 · 不参与真实购彩 · 理性购彩</div>
+</header>
+
+<main class="container">
+
+  <!-- 选号区 -->
+  <section class="card">
+    <div class="card-head">
+      <h2>① 选号</h2>
+      <div class="actions">
+        <button id="btnRandom" class="btn primary">机选一注</button>
+        <button id="btnClear" class="btn ghost">清空</button>
+      </div>
+    </div>
+
+    <div class="ball-row-label">红球（1–33，选 6 个）</div>
+    <div id="redGrid" class="grid red"></div>
+
+    <div class="ball-row-label">蓝球（1–16，选 1 个）</div>
+    <div id="blueGrid" class="grid blue"></div>
+
+    <div id="currentPick" class="current-pick"></div>
+  </section>
+
+  <!-- 参数实时分析 -->
+  <section class="card">
+    <div class="card-head"><h2>② 当前号码参数分析</h2></div>
+    <div id="statsPanel" class="stats empty">请先选择红球和蓝球</div>
+  </section>
+
+  <!-- 参数筛选 -->
+  <section class="card">
+    <div class="card-head">
+      <h2>③ 条件筛选机选</h2>
+      <span class="hint">按下方参数约束随机生成多注</span>
+    </div>
+
+    <div class="filter-grid">
+      <label>奇数个数
+        <select id="fOdd">
+          <option value="">不限</option>
+          <option>0</option><option>1</option><option>2</option>
+          <option selected>3</option><option>4</option><option>5</option><option>6</option>
+        </select>
+      </label>
+      <label>大数个数（17–33）
+        <select id="fBig">
+          <option value="">不限</option>
+          <option>0</option><option>1</option><option>2</option>
+          <option>3</option><option selected>4</option><option>5</option><option>6</option>
+        </select>
+      </label>
+      <label>和值区间
+        <select id="fSum">
+          <option value="">不限</option>
+          <option value="60-80">60 – 80</option>
+          <option value="80-100">80 – 100</option>
+          <option value="100-120" selected>100 – 120</option>
+          <option value="120-140">120 – 140</option>
+          <option value="140-160">140 – 160</option>
+        </select>
+      </label>
+      <label>跨度（最大-最小）
+        <select id="fSpan">
+          <option value="">不限</option>
+          <option value="15-20">15 – 20</option>
+          <option value="20-25">20 – 25</option>
+          <option value="25-32" selected>25 – 32</option>
+        </select>
+      </label>
+      <label>连号对数
+        <select id="fConsec">
+          <option value="">不限</option>
+          <option selected>0（无连号）</option>
+          <option>1</option><option>2</option>
+        </select>
+      </label>
+      <label>三区比（1-11 / 12-22 / 23-33）
+        <input id="fZone" type="text" placeholder="如 2:2:2，留空不限" maxlength="11">
+      </label>
+      <label>AC值 ≥
+        <select id="fAC">
+          <option value="">不限</option>
+          <option selected>5</option><option>6</option><option>7</option><option>8</option>
+        </select>
+      </label>
+      <label>生成注数
+        <select id="fCount">
+          <option>5</option><option selected>10</option><option>20</option>
+        </select>
+      </label>
+    </div>
+
+    <button id="btnFilterRandom" class="btn primary block">按条件生成号码</button>
+    <div id="resultList" class="result-list"></div>
+  </section>
+
+  <!-- 历史参考：在线拉取 + 手动粘贴 -->
+  <section class="card">
+    <div class="card-head">
+      <h2>④ 历史走势统计</h2>
+      <button id="btnReloadHistory" class="btn ghost small">刷新统计</button>
+    </div>
+
+    <!-- 在线拉取 -->
+    <div class="online-box">
+      <div class="filter-grid tight">
+        <label>拉取最近
+          <select id="onlineCount">
+            <option>10</option><option selected>30</option><option>50</option><option>100</option>
+          </select>
+        </label>
+        <label>日期起
+          <input id="onlineStart" type="date">
+        </label>
+        <label>日期止
+          <input id="onlineEnd" type="date">
+        </label>
+      </div>
+      <div class="actions row">
+        <button id="btnOnlineFetch" class="btn primary">从福彩官网在线拉取</button>
+      </div>
+      <div id="onlineStatus" class="online-status"></div>
+    </div>
+
+    <!-- 手动粘贴兜底 -->
+    <div class="hint" style="margin-top:12px">在线拉取失败时，可手动粘贴历史开奖（每行：期号 红1 红2 … 红6 蓝）。</div>
+    <textarea id="historyInput" rows="3" placeholder="示例：&#10;2026123  04 05 20 21 26 30  12"></textarea>
+    <div class="actions row">
+      <button id="btnLoadHistory" class="btn secondary">载入粘贴数据</button>
+      <button id="btnResetHistory" class="btn ghost">恢复示例数据</button>
+    </div>
+
+    <div id="historyList" class="history-list"></div>
+    <div id="historyStats" class="history-stats"></div>
+  </section>
+
+  <footer class="disclaimer">
+    彩票开奖完全随机，历史数据、参数统计均不能提高中奖概率。本工具仅供娱乐参考，请理性购彩、量力而行。
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
